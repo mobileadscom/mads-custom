@@ -45,7 +45,7 @@ const fadeOut = (el) => {
 
     last = +new Date();
 
-    if (opacity > 0) {
+    if (opacity > 0.0000) {
       // eslint-disable-next-line no-unused-expressions
       anim = (window.requestAnimationFrame && requestAnimationFrame(tick)) || setTimeout(tick, 16);
     } else {
