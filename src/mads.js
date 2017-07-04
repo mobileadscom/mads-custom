@@ -9,9 +9,9 @@ export default class Mads {
     this.googleApiKey = 'AIzaSyCFHn5MNIYN-lGyTDTUYRAJM2fEKvHm-nE';
 
     // Get JSON value
-    if (!constants.json && window.rma) {
+    if (!constants.json && window.rma && Object.keys(window.rma.customize.json).length !== 0) {
       this.json = window.rma.customize.json;
-    } else if (constants.json) {
+    } else if (constants.json && Object.keys(constants.json).length !== 0) {
       this.json = constants.json;
     } else {
       this.json = './settings.json';
