@@ -1,0 +1,17 @@
+{
+  "name": "mads-custom",
+  "version": "1.0.3",
+  "main": "./lib/index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "babel src -d lib",
+    "prepublish": "npm run build"
+  },
+  "dependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-preset-env": "^1.5.2"
+  },
+  "author": "Jeff <jeffpaltera@outlook.com",
+  "devDependencies": {},
+  "description": ""
+}
