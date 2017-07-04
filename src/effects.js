@@ -1,10 +1,10 @@
 /* global window, requestAnimationFrame */
 
-const fadeIn = (el) => {
+const fadeIn = (el, display) => {
   const tmpEl = el;
   let opacity = 0;
 
-  tmpEl.style.display = 'block';
+  tmpEl.style.display = display || window.getComputedStyle(tmpEl, null).getPropertyValue('display') || 'block';
   tmpEl.style.opacity = 0;
   tmpEl.style.filter = '';
 
@@ -22,7 +22,7 @@ const fadeIn = (el) => {
       anim = (window.requestAnimationFrame && requestAnimationFrame(tick)) || setTimeout(tick, 16);
     } else {
       (window.cancelAnimationFrame && cancelAnimationFrame(anim)) || clearTimeout(anim);
-      tmpEl.style.display = 'block';
+      tmpEl.style.display = display || window.getComputedStyle(tmpEl, null).getPropertyValue('display') || 'block';
     }
   };
 
@@ -45,21 +45,21 @@ const fadeOut = (el) => {
 
     last = +new Date();
 
-    if (opacity > 0.0000) {
-      // eslint-disable-next-line no-unused-expressions
-      anim = (window.requestAnimationFrame && requestAnimationFrame(tick)) || setTimeout(tick, 16);
-    } else {
+    if (opacity <= 0) {
       (window.cancelAnimationFrame && cancelAnimationFrame(anim)) || clearTimeout(anim);
       tmpEl.style.display = 'none';
+    } else {
+      // eslint-disable-next-line no-unused-expressions
+      anim = (window.requestAnimationFrame && requestAnimationFrame(tick)) || setTimeout(tick, 16);
     }
   };
 
   tick();
 };
 
-const fadeOutIn = (elOut, elIn) => {
+const fadeOutIn = (elOut, elIn, opts) => {
   fadeOut(elOut);
-  fadeIn(elIn);
+  fadeIn(elIn, opts.display);
 };
 
 export default null;
