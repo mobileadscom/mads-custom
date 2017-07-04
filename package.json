@@ -1,17 +1,22 @@
 {
   "name": "mads-custom",
-  "version": "1.0.3",
+  "version": "1.0.0",
   "main": "./lib/index.js",
-  "license": "MIT",
+  "license": "AGPL-3.0",
   "scripts": {
     "build": "babel src -d lib",
     "prepublish": "npm run build"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mobileadscom/mads-custom.git"
+  },
+  "homepage": "https://github.com/mobileadscom/mads-custom",
   "dependencies": {
     "babel-cli": "^6.24.1",
     "babel-preset-env": "^1.5.2"
   },
-  "author": "Jeff <jeffpaltera@outlook.com",
+  "author": "Jeff <jeffpaltera@outlook.com>",
   "devDependencies": {},
-  "description": ""
+  "description": "MobileAds.com customize advertisement banner module"
 }
