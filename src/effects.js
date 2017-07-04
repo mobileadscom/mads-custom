@@ -9,6 +9,7 @@ const fadeIn = (el) => {
   tmpEl.style.filter = '';
 
   let last = +new Date();
+  let anim;
   const tick = () => {
     opacity += (new Date() - last) / 400;
     tmpEl.style.opacity = opacity;
@@ -18,8 +19,9 @@ const fadeIn = (el) => {
 
     if (opacity < 1) {
       // eslint-disable-next-line no-unused-expressions
-      (window.requestAnimationFrame && requestAnimationFrame(tick)) || setTimeout(tick, 16);
+      anim = (window.requestAnimationFrame && requestAnimationFrame(tick)) || setTimeout(tick, 16);
     } else {
+      (window.cancelAnimationFrame && cancelAnimationFrame(anim)) || clearTimeout(anim);
       tmpEl.style.display = 'block';
     }
   };
@@ -35,6 +37,7 @@ const fadeOut = (el) => {
   tmpEl.style.filter = `alpha(opacity=${(100 * opacity) | 1})`; // eslint-disable-line no-bitwise
 
   let last = +new Date();
+  let anim;
   const tick = () => {
     opacity -= (new Date() - last) / 400;
     tmpEl.style.opacity = opacity;
@@ -44,8 +47,9 @@ const fadeOut = (el) => {
 
     if (opacity > 0) {
       // eslint-disable-next-line no-unused-expressions
-      (window.requestAnimationFrame && requestAnimationFrame(tick)) || setTimeout(tick, 16);
+      anim = (window.requestAnimationFrame && requestAnimationFrame(tick)) || setTimeout(tick, 16);
     } else {
+      (window.cancelAnimationFrame && cancelAnimationFrame(anim)) || clearTimeout(anim);
       tmpEl.style.display = 'none';
     }
   };
