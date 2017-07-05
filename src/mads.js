@@ -9,7 +9,7 @@ export default class Mads {
     this.googleApiKey = 'AIzaSyCFHn5MNIYN-lGyTDTUYRAJM2fEKvHm-nE';
 
     // Get JSON value
-    if (!constants.json && window.rma && Object.keys(window.rma.customize.json).length !== 0) {
+    if (!constants.json && window.rma && window.rma.customize && window.rma.customize.json && Object.keys(window.rma.customize.json).length !== 0) {
       this.json = window.rma.customize.json;
     } else if (constants.json && Object.keys(constants.json).length !== 0) {
       this.json = constants.json;
@@ -19,15 +19,15 @@ export default class Mads {
 
     // Setup & get FET value
     this.fetTracked = false;
-    if (constants.fet && window.rma) {
-      this.fet = typeof constants.fet === 'string' ? [window.rma.fet] : window.rma.fet;
+    if (!constants.fet && window.rma) {
+      this.fet =  typeof window.rma.fet === 'string' ? [window.rma.fet] : window.rma.fet;
     } else if (constants.fet) {
-      this.fet = constants.fet;
+      this.fet = typeof constants.fet === 'string' ? [constants.fet] : constants.fet;
     } else {
       this.fet = [];
     }
 
-    if (constants.custTracker && window.rma) {
+    if (!constants.custTracker && window.rma) {
       this.custTracker = window.rma.customize.custTracker;
     } else if (constants.custTracker) {
       this.custTracker = constants.custTracker;
@@ -35,23 +35,23 @@ export default class Mads {
       this.custTracker = [];
     }
 
-    if (constants.ct && window.rma) {
-      this.ct = window.rma.ct;
+    if (!constants.ct && window.rma) {
+      this.ct = typeof window.rma.ct === 'string' ? [window.rma.ct] : window.rma.ct;
     } else if (constants.ct) {
-      this.ct = constants.ct;
+      this.ct = typeof constants.ct === 'string' ? [constants.ct] : constants.ct;
     } else {
       this.ct = [];
     }
 
-    if (constants.cte && window.rma) {
-      this.cte = window.rma.cte;
+    if (!constants.cte && window.rma) {
+      this.cte = typeof window.rma.cte === 'string' ? [window.rma.cte] : window.rma.cte;
     } else if (constants.cte) {
-      this.cte = constants.cte;
+      this.cte = typeof constants.cte === 'string' ? [constants.cte] : constants.cte;
     } else {
       this.cte = [];
     }
 
-    if (constants.tags && window.rma) {
+    if (!constants.tags && window.rma) {
       this.tags = this.processTags(window.rma.tags);
     } else if (constants.tags) {
       this.tags = this.processTags(constants.tags);
@@ -65,7 +65,7 @@ export default class Mads {
     this.engagementTypeExclude = [];
     this.firstEngagementTracked = false;
     this.content = document.getElementById('rma-widget');
-    this.path = typeof window.rma !== 'undefined' ? window.rma.customize.src : '';
+    this.path = typeof window.rma !== 'undefined' ? window.rma.customize.src || '' : '';
     for (let i = 0; i < this.custTracker.length; i += 1) {
       if (this.custTracker[i].indexOf('{2}') !== -1) {
         this.custTracker[i] = this.custTracker[i].replace('{2}', '{{type}}');
@@ -166,10 +166,10 @@ export default class Mads {
   }
 
   tracker(tt, type, name, value) {
-    const tmpName = name || type;
+    const tmpName = type.name || (name || type);
     let tmpValue = value;
 
-    if (tt === 'E' && !this.fetTracked) {
+    if (tt === 'E' && !this.fetTracked && this.fet) {
       for (let i = 0; i < this.fet.length; i += 1) {
         const t = document.createElement('img');
         t.src = this.fet[i];
@@ -182,13 +182,14 @@ export default class Mads {
 
     if (typeof this.custTracker !== 'undefined' && this.custTracker !== '' && this.tracked.indexOf(tmpName) === -1) {
       for (let i = 0; i < this.custTracker.length; i += 1) {
+        if (i !== 0 && type.exclude) continue;
         const img = document.createElement('img');
 
         if (typeof tmpValue === 'undefined') {
           tmpValue = '';
         }
 
-        let src = this.custTracker[i].replace('{{rmatype}}', type);
+        let src = this.custTracker[i].replace('{{rmatype}}', type.name || type);
         src = src.replace('{{rmavalue}}', tmpValue);
 
         if (this.trackedEngagementType.indexOf(tt) !== -1
