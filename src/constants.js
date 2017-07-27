@@ -7,6 +7,7 @@ const constants = {
   ct: getParameterByName('ct'),
   cte: getParameterByName('cte'),
   tags: getParameterByName('tags'),
+  pgId: getParameterByName('pgId'),
 };
 
 export default constants;

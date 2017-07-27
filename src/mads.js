@@ -51,6 +51,14 @@ export default class Mads {
       this.cte = [];
     }
 
+    if (!constants.pgId && window.rma) {
+      this.pgId = window.rma.pageLoadId;
+    } else if (constants.pgId) {
+      this.pgId = constants.pgId
+    } else {
+      this.pgId = 0;
+    }
+
     if (!constants.tags && window.rma) {
       this.tags = this.processTags(window.rma.tags);
     } else if (constants.tags) {
