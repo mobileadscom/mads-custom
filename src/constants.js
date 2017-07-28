@@ -8,6 +8,8 @@ const constants = {
   cte: getParameterByName('cte'),
   tags: getParameterByName('tags'),
   pgId: getParameterByName('pgId'),
+  preview: getParameterByName('preview'),
+  md5: getParameterByName('md5'),
 };
 
 export default constants;

@@ -14,7 +14,7 @@ export default class Mads {
     } else if (constants.json && Object.keys(constants.json).length !== 0) {
       this.json = constants.json;
     } else {
-      this.json = './settings.json';
+      this.json = './data.json';
     }
 
     // Setup & get FET value
@@ -81,23 +81,32 @@ export default class Mads {
     }
     this.elems = {};
 
-    if (typeof this.json === 'string' && (this.json.indexOf('./') === 0 || this.json.indexOf('https://') === 0 || this.json.indexOf('http://') === 0)) {
-      const xhr = new XMLHttpRequest();
-      xhr.onreadystatechange = () => {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-          if (xhr.status === 200) {
-            this.data = JSON.parse(xhr.responseText);
-            this.loadAd();
-          } else {
-            console.log('There was problem with the request.'); // eslint-disable-line
-          }
-        }
-      };
-      xhr.open('GET', this.json, true);
-      xhr.send();
+    if (constants.preview) {
+      this.data = preview.data;
+      this.userId = preview.userId;
+      this.studioId = preview.studioId;
+      setTimeout(() {
+        this.loadAd();
+      }, 1)
+    } else if (constants.md5) {
+      this.loadJS(`https://testcdn.richmediaads.com/studio-full/${constants.md5}.json`).then(() => {
+        this.userId = data_studiofull.userId;
+        this.studioId = data_studiofull.id;
+        this.data = data_studiofull.tab1.componentContent[34].data.raw.property;
+        this.loadAd();
+      });
     } else {
-      this.data = constants.json;
-      this.loadAd();
+      if (typeof this.json === 'string' && (this.json.indexOf('./') === 0 || this.json.indexOf('https://') === 0 || this.json.indexOf('http://') === 0)) {
+        this.loadJS(this.json).then(() => {
+          this.userId = json_data.userId;
+          this.studioId = json_data.id;
+          this.data = json_data;
+          this.loadAd();
+        });
+      } else {
+        this.data = constants.json;
+        this.loadAd();
+      }
     }
   }
 
