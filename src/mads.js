@@ -85,7 +85,7 @@ export default class Mads {
       this.data = preview.data;
       this.userId = preview.userId;
       this.studioId = preview.studioId;
-      setTimeout(() {
+      setTimeout(() => {
         this.loadAd();
       }, 1)
     } else if (constants.md5) {
