@@ -51,12 +51,15 @@ export default class Mads {
       this.cte = [];
     }
 
-    if (!constants.pgId && window.rma) {
-      this.pgId = window.rma.pageLoadId;
-    } else if (constants.pgId) {
+    if (constants.pgId && typeof constants.pgId !== 'undefined' && constants.pgId !== 'undefined') {
       this.pgId = constants.pgId
     } else {
-      this.pgId = 0;
+      const genereatePgId = (flag) => {
+        const r = (Math.random().toString(16) + "000000000").substr(2, 8);
+        return flag ? `-${r.substr(0, 4)}-${p.substr(4,4)}` : r;
+      }
+
+      this.pgId = `${genereatePgId()}${genereatePgId(true)}${genereatePgId(true)}${genereatePgId()}`;
     }
 
     if (!constants.tags && window.rma) {
@@ -88,11 +91,12 @@ export default class Mads {
       setTimeout(() => {
         this.loadAd();
       }, 1)
-    } else if (constants.md5) {
-      this.loadJS(`https://testcdn.richmediaads.com/studio-full/${constants.md5}.json`).then(() => {
+    } else if (constants.md5 && constants.md5 !== 'undefined' && typeof constants.md5 !== 'undefined') {
+      this.loadJS(`https://cdn.richmediaads.com/studio-full/${constants.md5}.json?pgId${this.pgId}`).then(() => {
         this.userId = data_studiofull.userId;
         this.studioId = data_studiofull.id;
         this.data = data_studiofull.tab1.componentContent[34].data.raw.property;
+        this.leadData = data_studiofull.tab1.componentContent[34].data.raw.leadgen;
         this.loadAd();
       });
     } else {
@@ -101,10 +105,18 @@ export default class Mads {
           this.userId = json_data.userId;
           this.studioId = json_data.id;
           this.data = json_data;
+          this.leadData = {
+            leadGenEle: json_data.leadGenEle,
+          };
           this.loadAd();
         });
       } else {
+        this.userId = constants.json.userId;
+        this.studioId = constants.json.id;
         this.data = constants.json;
+        this.leadData = {
+          leadGenEle: constants.json.leadGenEle,
+        };
         this.loadAd();
       }
     }
