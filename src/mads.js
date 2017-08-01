@@ -56,7 +56,7 @@ export default class Mads {
     } else {
       const genereatePgId = (flag) => {
         const r = (Math.random().toString(16) + "000000000").substr(2, 8);
-        return flag ? `-${r.substr(0, 4)}-${p.substr(4,4)}` : r;
+        return flag ? `-${r.substr(0, 4)}-${r.substr(4,4)}` : r;
       }
 
       this.pgId = `${genereatePgId()}${genereatePgId(true)}${genereatePgId(true)}${genereatePgId()}`;
@@ -90,7 +90,7 @@ export default class Mads {
       this.studioId = preview.studioId;
       setTimeout(() => {
         this.loadAd();
-      }, 1)
+      }, 1);
     } else if (constants.md5 && constants.md5 !== 'undefined' && typeof constants.md5 !== 'undefined') {
       this.loadJS(`https://cdn.richmediaads.com/studio-full/${constants.md5}.json?pgId${this.pgId}`).then(() => {
         this.userId = data_studiofull.userId;
