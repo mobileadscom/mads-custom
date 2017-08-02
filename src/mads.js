@@ -167,6 +167,7 @@ export default class Mads {
     let resultTags = '';
     Object.keys(tmpTags).forEach((tag) => {
       if (tmpTags[tag]) {
+        tmpTags[tag] = encodeURIComponent(tmpTags[tag]);
         resultTags += `&${tag}=${tmpTags[tag]}`;
       }
     });
