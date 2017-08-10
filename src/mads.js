@@ -193,7 +193,7 @@ export default class Mads {
   }
 
   leadTagsProcess(tags) {
-    const tmpTags = '';
+    let tmpTags = '';
     Obect.keys(tags).forEach((tag) => {
       if (tags[tag]) {
         tmpTags += tags[tag] + ',';
