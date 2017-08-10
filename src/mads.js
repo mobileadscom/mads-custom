@@ -63,10 +63,13 @@ export default class Mads {
     }
 
     if (!constants.tags && window.rma) {
+      this.leadTags = this.leadTagsProcess(window.rma.tags);
       this.tags = this.processTags(window.rma.tags);
     } else if (constants.tags) {
+      this.leadTags = this.leadTagsProcess(constants.tags);
       this.tags = this.processTags(constants.tags);
     } else {
+      this.leadTags = '';
       this.tags = {};
     }
 
@@ -107,12 +110,18 @@ export default class Mads {
     }
 
     if (constants.preview) {
-      this.data = preview.data;
-      this.userId = preview.userId;
-      this.studioId = preview.studioId;
-      setTimeout(() => {
-        this.loadAd();
-      }, 1);
+      window.addEventListener('message', (e) => {
+        const props = e.data.data;
+        if (typeof e.data.auth !== 'undefined' && e.data.auth === 'preview') {
+          this.data = props.data;
+          this.leadData = props.leadgen;
+          this.userId = props.userId
+          this.studioId = props.studioId;
+          setTimeout(() => {
+            this.loadAd();
+          }, 1);
+        }
+      });
     } else if (constants.md5 && constants.md5 !== 'undefined' && typeof constants.md5 !== 'undefined') {
       this.loadJS(`https://cdn.richmediaads.com/studio-full/${constants.md5}.json?pgId${this.pgId}`).then(() => {
         try {
@@ -181,6 +190,16 @@ export default class Mads {
     });
 
     return resultTags;
+  }
+
+  leadTagsProcess(tags) {
+    const tmpTags = '';
+    Obect.keys(tags).forEach((tag) => {
+      if (tags[tag]) {
+        tmpTags += tags[tag] + ',';
+      }
+    });
+    return tmpTags.slice(0, -1);
   }
 
   linkOpener(url) {
