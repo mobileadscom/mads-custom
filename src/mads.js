@@ -89,6 +89,7 @@ export default class Mads {
 
     const loadAdOldSchool = () => {
       if (typeof this.json === 'string' && (this.json.indexOf('./') === 0 || this.json.indexOf('https://') === 0 || this.json.indexOf('http://') === 0)) {
+
         this.loadJS(this.json).then(() => {
           this.userId = json_data.userId;
           this.studioId = json_data.id;
@@ -96,6 +97,7 @@ export default class Mads {
           this.leadData = {
             leadGenEle: json_data.leadGenEle,
           };
+          console.log('loaded old with loading json', this.json, this.data);
           this.loadAd();
         });
       } else {
@@ -105,6 +107,7 @@ export default class Mads {
         this.leadData = {
           leadGenEle: constants.json.leadGenEle,
         };
+        console.log('loaded old with constant json', constants.json, this.data);
         this.loadAd();
       }
     }
@@ -118,6 +121,7 @@ export default class Mads {
           this.userId = props.userId
           this.studioId = props.studioId;
           setTimeout(() => {
+            console.log('loaded new with preview json', props, this.data);
             this.loadAd();
           }, 1);
         }
@@ -129,6 +133,7 @@ export default class Mads {
           this.studioId = data_studiofull.id;
           this.data = data_studiofull.tab1.componentContent[34].data.raw.property;
           this.leadData = data_studiofull.tab1.componentContent[34].data.raw.leadgen;
+          console.log('loaded new with md5 json', data_studiofull, this.data);
           this.loadAd();
         } catch (e) {
           loadAdOldSchool();
