@@ -234,7 +234,7 @@ export default class Mads {
     if (tt === 'E' && !this.fetTracked && this.fet) {
       for (let i = 0; i < this.fet.length; i += 1) {
         const t = document.createElement('img');
-        t.src = this.fet[i];
+        t.src = decodeURIComponent(this.fet[i]);
 
         t.style.display = 'none';
         this.body.appendChild(t);
