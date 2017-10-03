@@ -14,7 +14,7 @@ export default class Mads {
     } else if (constants.json && Object.keys(constants.json).length !== 0) {
       this.json = constants.json;
     } else {
-      this.json = './data.json';
+      this.json = this.resolve('./data.json');
     }
 
     // Setup & get FET value
@@ -91,22 +91,26 @@ export default class Mads {
       if (typeof this.json === 'string' && (this.json.indexOf('./') === 0 || this.json.indexOf('https://') === 0 || this.json.indexOf('http://') === 0)) {
 
         this.loadJS(this.json).then(() => {
-          this.userId = json_data.userId;
-          this.studioId = json_data.id;
-          this.data = json_data;
-          this.leadData = {
-            leadGenEle: json_data.leadGenEle,
-          };
+          if (json_data) {
+            this.userId = json_data.userId;
+            this.studioId = json_data.id;
+            this.data = json_data;
+            this.leadData = {
+              leadGenEle: json_data.leadGenEle,
+            };
+          }
           console.log('loaded old with loading json', this.json, this.data);
           this.loadAd();
         });
       } else {
-        this.userId = constants.json.userId;
-        this.studioId = constants.json.id;
-        this.data = constants.json;
-        this.leadData = {
-          leadGenEle: constants.json.leadGenEle,
-        };
+        if (constants.json) {
+          this.userId = constants.json.userId;
+          this.studioId = constants.json.id;
+          this.data = constants.json;
+          this.leadData = {
+            leadGenEle: constants.json.leadGenEle,
+          };
+        }
         console.log('loaded old with constant json', constants.json, this.data);
         this.loadAd();
       }
