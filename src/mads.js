@@ -181,7 +181,10 @@ export default class Mads {
   }
 
   resolve(path) {
-    return this.path + path;
+    if (this.path) {
+      return this.path + path;
+    }
+    return path;
   }
 
   generateUniqueId() { // eslint-disable-line class-methods-use-this
