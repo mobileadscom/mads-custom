@@ -8,6 +8,8 @@ export default class Mads {
 
     this.googleApiKey = 'AIzaSyCFHn5MNIYN-lGyTDTUYRAJM2fEKvHm-nE';
 
+    this.path = typeof window.rma !== 'undefined' ? window.rma.customize.src || '' : '';
+
     // Get JSON value
     if (!constants.json && window.rma && window.rma.customize && window.rma.customize.json && Object.keys(window.rma.customize.json).length !== 0) {
       this.json = window.rma.customize.json;
@@ -79,7 +81,7 @@ export default class Mads {
     this.engagementTypeExclude = [];
     this.firstEngagementTracked = false;
     this.content = document.getElementById('rma-widget');
-    this.path = typeof window.rma !== 'undefined' ? window.rma.customize.src || '' : '';
+
     for (let i = 0; i < this.custTracker.length; i += 1) {
       if (this.custTracker[i].indexOf('{2}') !== -1) {
         this.custTracker[i] = this.custTracker[i].replace('{2}', '{{type}}');
