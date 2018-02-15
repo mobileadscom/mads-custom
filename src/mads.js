@@ -271,9 +271,15 @@ export default class Mads {
           this.trackedEngagementType.push(tt);
         }
 
-        if (!this.firstEngagementTracked && tt === 'E') {
+        if (!this.firstEngagementTracked && tt === 'E' && type !== 'tilt_landscape') {
           src += '&ty=E';
           this.firstEngagementTracked = true;
+        }
+
+        if (type == 'yt_play') {
+          src += '&tv=VP'
+        } else if (type == 'yt_play_100') {
+          src += '&tv=VC'
         }
 
         img.src = `${src + this.tags}&${this.id}`;
