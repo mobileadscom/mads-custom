@@ -72,7 +72,7 @@ export default class Mads {
       this.tags = this.processTags(constants.tags);
     } else {
       this.leadTags = '';
-      this.tags = {};
+      this.tags = '';
     }
 
     this.id = this.generateUniqueId();
@@ -281,6 +281,10 @@ export default class Mads {
         } else if (type == 'yt_play_100') {
           src += '&tv=VC'
         }
+
+        const tags = Object.keys(this.tags).map((key) => {
+          return this.tags[key]
+        })
 
         img.src = `${src + this.tags}&${this.id}`;
 
