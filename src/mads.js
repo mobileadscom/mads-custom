@@ -264,7 +264,7 @@ export default class Mads {
         src = src.replace('{{rmavalue}}', tmpValue);
 
         if (this.trackedEngagementType.indexOf(tt) !== -1
-          || this.engagementTypeExclude.indexOf(tt) !== -1 || tt == '') {
+          || this.engagementTypeExclude.indexOf(tt) !== -1) {
           src = src.replace('tt={{rmatt}}', '');
         } else {
           src = src.replace('{{rmatt}}', tt);
@@ -276,9 +276,9 @@ export default class Mads {
           this.firstEngagementTracked = true;
         }
 
-        if (type == 'yt_play' || type == 'video_play') {
+        if (type == 'yt_play') {
           src += '&tv=VP'
-        } else if (type == 'yt_play_100' || type == 'video_play_100') {
+        } else if (type == 'yt_play_100') {
           src += '&tv=VC'
         }
 
