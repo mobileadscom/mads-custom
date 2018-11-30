@@ -118,21 +118,22 @@ export default class Mads {
       }
     }
 
-    if (constants.preview) {
-      window.addEventListener('message', (e) => {
-        const props = e.data.data;
-        if (typeof e.data.auth !== 'undefined' && e.data.auth === 'preview') {
-          this.data = props.data;
-          this.leadData = props.leadgen;
-          this.userId = props.userId
-          this.studioId = props.studioId;
-          setTimeout(() => {
-            console.log('loaded new with preview json', props, this.data);
-            this.loadAd();
-          }, 1);
-        }
-      });
-    } else if (constants.md5 && constants.md5 !== 'undefined' && typeof constants.md5 !== 'undefined') {
+    // if (constants.preview) {
+    //   window.addEventListener('message', (e) => {
+    //     const props = e.data.data;
+    //     if (typeof e.data.auth !== 'undefined' && e.data.auth === 'preview') {
+    //       this.data = props.data;
+    //       this.leadData = props.leadgen;
+    //       this.userId = props.userId
+    //       this.studioId = props.studioId;
+    //       setTimeout(() => {
+    //         console.log('loaded new with preview json', props, this.data);
+    //         this.loadAd();
+    //       }, 1);
+    //     }
+    //   });
+    // } 
+    if (constants.md5 && constants.md5 !== 'undefined' && typeof constants.md5 !== 'undefined') {
       this.loadJS(`https://cdn.richmediaads.com/studio-full/${constants.md5}.json?pgId${this.pgId}`).then(() => {
         try {
           this.userId = data_studiofull.userId;
